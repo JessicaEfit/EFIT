@@ -38,8 +38,8 @@ function initSupabaseClient() {
 }
 
 const WHATSAPP_BY_UNIDADE = {
-  "São Caetano": "5511999999999", // <-- TROCAR depois
-  "Tatuapé": "5511888888888"      // <-- TROCAR depois
+  "São Caetano": "5511976970921", // <-- TROCAR depois
+  "Tatuapé": "5511976970921"      // <-- TROCAR depois
 };
 
 const DEFAULT_WHATSAPP = "5511999999999"; // fallback
@@ -1016,4 +1016,5 @@ document.addEventListener("DOMContentLoaded", () => {
   console.log("UTMs capturadas:", quizState.utms);
   renderStep();
   console.log("Supabase client:", initSupabaseClient() ? "OK" : "NÃO CONFIGURADO");
+
 });
