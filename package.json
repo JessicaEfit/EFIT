@@ -1,0 +1,14 @@
+{
+  "name": "efit-quiz",
+  "version": "1.0.0",
+  "description": "Quiz de qualificação E-FIT com CTA WhatsApp",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.98.0",
+    "dotenv": "^17.3.1"
+  }
+}
