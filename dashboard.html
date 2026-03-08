@@ -4,182 +4,742 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard Quiz E-FIT</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  />
+
   <style>
-    :root{
-      --bg:#0b1014; --card:#111922; --muted:#94a3b8; --text:#e5edf5;
-      --accent:#03c2c7; --line:#1f2a37; --good:#16a34a; --warn:#f59e0b; --bad:#ef4444;
+    :root {
+      --bg: #f4f7f8;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #667085;
+      --line: #e5e7eb;
+      --accent: #03c2c7;
+      --accent-2: #02aeb2;
+      --dark: #071114;
+      --success: #16a34a;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --shadow: 0 14px 34px rgba(0, 0, 0, 0.08);
+      --radius-xl: 22px;
+      --radius-lg: 16px;
+      --radius-md: 12px;
     }
-    *{box-sizing:border-box}
-    body{
-      margin:0; font-family:Inter,system-ui,Arial,sans-serif; background:linear-gradient(180deg,#071015,#0b1014);
-      color:var(--text); padding:20px;
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Montserrat", Arial, sans-serif;
+      background: linear-gradient(180deg, #f8fbfc 0%, #eef4f5 100%);
+      color: var(--text);
     }
-    .wrap{max-width:1200px;margin:0 auto}
-    h1{margin:0 0 8px;font-size:1.6rem}
-    p.sub{margin:0 0 16px;color:var(--muted)}
-    .topbar{
-      display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:16px;
+
+    .wrap {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 24px 16px 48px;
     }
-    .btn{
-      border:none; background:var(--accent); color:#041012; font-weight:800; border-radius:10px;
-      padding:10px 14px; cursor:pointer;
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
     }
-    .btn.secondary{
-      background:#182330; color:var(--text); border:1px solid var(--line);
+
+    .title-box h1 {
+      margin: 0 0 6px;
+      font-size: clamp(1.35rem, 2vw, 2rem);
+      font-weight: 900;
+      color: var(--dark);
+      font-style: italic;
     }
-    .badge{
-      background:#0f1a20; border:1px solid #15313a; color:#9feff2; padding:8px 10px;
-      border-radius:999px; font-size:.85rem;
+
+    .title-box p {
+      margin: 0;
+      color: var(--muted);
+      font-weight: 500;
     }
-    .grid{
-      display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin-bottom:16px;
+
+    .refresh-btn {
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(180deg, var(--accent), var(--accent-2));
+      color: #031012;
+      font-weight: 900;
+      padding: 12px 16px;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(3, 194, 199, 0.22);
     }
-    .card{
-      background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px;
-      box-shadow:0 10px 25px rgba(0,0,0,.15);
+
+    .filters-card {
+      background: var(--card);
+      border: 1px solid rgba(7, 17, 20, 0.06);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      margin-bottom: 18px;
     }
-    .card .label{color:var(--muted); font-size:.84rem}
-    .card .value{font-size:1.55rem; font-weight:800; margin-top:6px}
-    .layout{
-      display:grid; grid-template-columns:1.2fr 1fr; gap:14px;
+
+    .filters-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
     }
-    .panel{
-      background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px;
-      margin-bottom:14px;
+
+    .filters-head h2 {
+      margin: 0;
+      font-size: 1.02rem;
+      font-weight: 900;
+      color: var(--dark);
     }
-    .panel h2{
-      margin:0 0 10px; font-size:1rem;
+
+    .filters-head p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+      font-weight: 500;
     }
-    table{
-      width:100%; border-collapse:collapse; font-size:.92rem;
+
+    .filters-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: end;
     }
-    th,td{
-      text-align:left; padding:10px 8px; border-bottom:1px solid var(--line);
-      vertical-align:top;
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 180px;
     }
-    th{color:#b9c6d6; font-weight:700; font-size:.84rem}
-    td{color:#e5edf5}
-    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.85rem}
-    .drop-high{color:var(--bad); font-weight:700}
-    .drop-mid{color:var(--warn); font-weight:700}
-    .drop-low{color:var(--good); font-weight:700}
-    .muted{color:var(--muted)}
-    .error{
-      background:#2a1114; border:1px solid #5a2027; color:#fecaca; padding:12px; border-radius:10px; margin-bottom:12px;
-      display:none;
+
+    .filter-group label {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
-    .loading{
-      color:var(--muted); font-size:.9rem;
+
+    .filter-group input {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 12px;
+      padding: 12px 12px;
+      font-weight: 700;
+      color: var(--dark);
+      outline: none;
+      font-family: inherit;
     }
-    @media (max-width: 980px){
-      .grid{grid-template-columns:repeat(2,1fr)}
-      .layout{grid-template-columns:1fr}
+
+    .quick-ranges {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
     }
-    @media (max-width: 560px){
-      .grid{grid-template-columns:1fr}
-      body{padding:12px}
+
+    .quick-range-btn {
+      border: 1px solid rgba(3, 194, 199, 0.2);
+      background: rgba(3, 194, 199, 0.08);
+      color: #0f766e;
+      border-radius: 999px;
+      padding: 9px 12px;
+      font-weight: 800;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .quick-range-btn.active {
+      background: linear-gradient(180deg, var(--accent), var(--accent-2));
+      color: #031012;
+      border-color: transparent;
+    }
+
+    .apply-filter-btn {
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(180deg, var(--dark), #0f2a31);
+      color: #fff;
+      font-weight: 900;
+      padding: 12px 16px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .current-period {
+      margin-top: 12px;
+      font-size: 0.92rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .grid-kpis {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .kpi-card {
+      background: var(--card);
+      border: 1px solid rgba(7, 17, 20, 0.06);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+
+    .kpi-label {
+      font-size: 0.82rem;
+      letter-spacing: 0.05em;
+      font-weight: 800;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .kpi-value {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--dark);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .kpi-foot {
+      font-size: 0.92rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .grid-main {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(7, 17, 20, 0.06);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+
+    .card h2 {
+      margin: 0 0 6px;
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--dark);
+    }
+
+    .card p.card-sub {
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 640px;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 12px 10px;
+      border-bottom: 1px solid var(--line);
+      font-size: 0.93rem;
+      vertical-align: middle;
+    }
+
+    th {
+      color: var(--muted);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-weight: 800;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .badge-good {
+      background: rgba(22, 163, 74, 0.12);
+      color: #166534;
+    }
+
+    .badge-mid {
+      background: rgba(245, 158, 11, 0.13);
+      color: #92400e;
+    }
+
+    .badge-bad {
+      background: rgba(239, 68, 68, 0.12);
+      color: #991b1b;
+    }
+
+    .badge-status-raw {
+      background: rgba(148, 163, 184, 0.14);
+      color: #334155;
+    }
+
+    .badge-status-lead {
+      background: rgba(3, 194, 199, 0.14);
+      color: #0f766e;
+    }
+
+    .badge-status-qualified {
+      background: rgba(22, 163, 74, 0.12);
+      color: #166534;
+    }
+
+    .badge-status-agendado {
+      background: rgba(59, 130, 246, 0.12);
+      color: #1d4ed8;
+    }
+
+    .badge-status-compareceu {
+      background: rgba(168, 85, 247, 0.14);
+      color: #7c3aed;
+    }
+
+    .badge-status-fechado {
+      background: rgba(245, 158, 11, 0.13);
+      color: #92400e;
+    }
+
+    .insights-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .insight-item {
+      border: 1px solid #e8f3f4;
+      background: linear-gradient(180deg, #fbfeff 0%, #f5fcfc 100%);
+      border-radius: 14px;
+      padding: 14px;
+    }
+
+    .insight-item strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--dark);
+    }
+
+    .insight-item span {
+      color: #475467;
+      font-size: 0.95rem;
+      line-height: 1.45;
+    }
+
+    .grid-bottom {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .leads-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .leads-summary {
+      color: var(--muted);
+      font-size: 0.92rem;
+      font-weight: 600;
+    }
+
+    .leads-filter {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .leads-filter select {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-weight: 700;
+      color: var(--dark);
+      outline: none;
+    }
+
+    .actions-cell {
+      min-width: 240px;
+    }
+
+    .lead-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .lead-action-btn {
+      border: none;
+      border-radius: 10px;
+      padding: 9px 10px;
+      font-size: 0.78rem;
+      font-weight: 900;
+      cursor: pointer;
+      transition: transform 0.12s ease, opacity 0.12s ease;
+      font-family: inherit;
+    }
+
+    .lead-action-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .lead-action-btn:disabled {
+      opacity: 0.6;
+      cursor: wait;
+      transform: none;
+    }
+
+    .btn-agendado {
+      background: rgba(59, 130, 246, 0.12);
+      color: #1d4ed8;
+    }
+
+    .btn-compareceu {
+      background: rgba(168, 85, 247, 0.14);
+      color: #7c3aed;
+    }
+
+    .btn-fechado {
+      background: rgba(245, 158, 11, 0.14);
+      color: #92400e;
+    }
+
+    .lead-name {
+      font-weight: 800;
+      color: var(--dark);
+      margin-bottom: 4px;
+    }
+
+    .lead-meta {
+      color: var(--muted);
+      font-size: 0.84rem;
+      line-height: 1.4;
+    }
+
+    .empty-state {
+      color: var(--muted);
+      font-size: 0.95rem;
+      padding: 8px 0 2px;
+    }
+
+    .loading {
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    @media (max-width: 1100px) {
+      .grid-kpis {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .grid-main,
+      .grid-bottom {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .grid-kpis {
+        grid-template-columns: 1fr;
+      }
+
+      .wrap {
+        padding: 16px 12px 36px;
+      }
+
+      .card,
+      .kpi-card,
+      .filters-card {
+        padding: 16px;
+      }
+
+      table {
+        min-width: 560px;
+      }
+
+      .filters-grid {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .filter-group {
+        min-width: auto;
+      }
     }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <h1>Dashboard Quiz E-FIT</h1>
-    <p class="sub">Acompanhamento de funil, abandono por etapa, campanha e unidade.</p>
-
     <div class="topbar">
-      <button class="btn" id="btnRefresh">Atualizar</button>
-      <button class="btn secondary" id="btnAuto">Auto atualizar: OFF</button>
-      <span class="badge" id="lastUpdate">Última atualização: --</span>
+      <div class="title-box">
+        <h1>Dashboard do Quiz E-FIT</h1>
+        <p>Leitura do novo funil: entrada, avanço por etapa, intenção e geração de lead.</p>
+      </div>
+
+      <button id="refreshBtn" class="refresh-btn">Atualizar dashboard</button>
     </div>
 
-    <div class="error" id="errorBox"></div>
+    <section class="filters-card">
+      <div class="filters-head">
+        <div>
+          <h2>Filtro por período</h2>
+          <p>Use este intervalo para filtrar tanto o funil quanto a gestão de leads.</p>
+        </div>
+      </div>
 
-    <div class="grid">
-      <div class="card">
-        <div class="label">Sessões iniciadas</div>
-        <div class="value" id="kpiIniciadas">--</div>
-      </div>
-      <div class="card">
-        <div class="label">Sessões completas</div>
-        <div class="value" id="kpiCompletas">--</div>
-      </div>
-      <div class="card">
-        <div class="label">Leads WhatsApp</div>
-        <div class="value" id="kpiLeads">--</div>
-      </div>
-      <div class="card">
-        <div class="label">Taxa de conclusão</div>
-        <div class="value" id="kpiConclusao">--%</div>
-      </div>
-      <div class="card">
-        <div class="label">Taxa de lead</div>
-        <div class="value" id="kpiLeadRate">--%</div>
-      </div>
-    </div>
-
-    <div class="layout">
-      <div>
-        <div class="panel">
-          <h2>Abandono por etapa</h2>
-          <div class="loading" id="loadingSteps">Carregando...</div>
-          <table id="tableSteps" style="display:none;">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Etapa</th>
-                <th>Views</th>
-                <th>Respostas</th>
-                <th>Taxa resposta</th>
-                <th>Abandono</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
+      <div class="filters-grid">
+        <div class="quick-ranges">
+          <button class="quick-range-btn" data-range="today">Hoje</button>
+          <button class="quick-range-btn" data-range="7d">7 dias</button>
+          <button class="quick-range-btn" data-range="30d">30 dias</button>
         </div>
 
-        <div class="panel">
-          <h2>Performance por campanha</h2>
-          <div class="loading" id="loadingCampaigns">Carregando...</div>
-          <table id="tableCampaigns" style="display:none;">
+        <div class="filter-group">
+          <label for="startDate">Data inicial</label>
+          <input type="date" id="startDate" />
+        </div>
+
+        <div class="filter-group">
+          <label for="endDate">Data final</label>
+          <input type="date" id="endDate" />
+        </div>
+
+        <button id="applyDateFilterBtn" class="apply-filter-btn">Aplicar filtro</button>
+      </div>
+
+      <div class="current-period" id="currentPeriodLabel">
+        Período atual: carregando...
+      </div>
+    </section>
+
+    <section class="grid-kpis">
+      <article class="kpi-card">
+        <div class="kpi-label">Sessões iniciadas</div>
+        <div class="kpi-value" id="kpiSessions">--</div>
+        <div class="kpi-foot">Pessoas que iniciaram o quiz</div>
+      </article>
+
+      <article class="kpi-card">
+        <div class="kpi-label">Quiz completos</div>
+        <div class="kpi-value" id="kpiCompleted">--</div>
+        <div class="kpi-foot">Chegaram ao resultado final</div>
+      </article>
+
+      <article class="kpi-card">
+        <div class="kpi-label">Leads</div>
+        <div class="kpi-value" id="kpiLeads">--</div>
+        <div class="kpi-foot">Clicaram no CTA de WhatsApp</div>
+      </article>
+
+      <article class="kpi-card">
+        <div class="kpi-label">Taxa de conclusão</div>
+        <div class="kpi-value" id="kpiCompletionRate">--</div>
+        <div class="kpi-foot">Completos ÷ iniciadas</div>
+      </article>
+
+      <article class="kpi-card">
+        <div class="kpi-label">Taxa de lead</div>
+        <div class="kpi-value" id="kpiLeadRate">--</div>
+        <div class="kpi-foot">Leads ÷ iniciadas</div>
+      </article>
+    </section>
+
+    <section class="grid-main">
+      <article class="card">
+        <h2>Abandono por etapa</h2>
+        <p class="card-sub">Identifica onde o novo funil está travando mais.</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Etapa</th>
+                <th>Visualizações</th>
+                <th>Respostas / avanço</th>
+                <th>Abandono</th>
+                <th>Taxa</th>
+              </tr>
+            </thead>
+            <tbody id="stepsTableBody">
+              <tr>
+                <td colspan="5" class="empty-state">Carregando etapas...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>Insights rápidos</h2>
+        <p class="card-sub">Leituras práticas para decidir o próximo ajuste do funil.</p>
+
+        <div class="insights-list" id="insightsList">
+          <div class="insight-item">
+            <strong>Carregando insights...</strong>
+            <span>Assim que os dados chegarem, este bloco será preenchido.</span>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="grid-bottom">
+      <article class="card">
+        <h2>Desempenho por objetivo</h2>
+        <p class="card-sub">Mostra qual tipo de intenção mais avança e mais gera lead.</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Objetivo</th>
+                <th>Sessões</th>
+                <th>Completos</th>
+                <th>Leads</th>
+                <th>Taxa lead</th>
+              </tr>
+            </thead>
+            <tbody id="goalsTableBody">
+              <tr>
+                <td colspan="5" class="empty-state">Carregando objetivos...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>Desempenho por campanha</h2>
+        <p class="card-sub">Ajuda a ver qual campanha traz sessão melhor e não só clique bonito.</p>
+
+        <div class="table-wrap">
+          <table>
             <thead>
               <tr>
                 <th>Campanha</th>
-                <th>Source/Medium</th>
-                <th>Iniciadas</th>
-                <th>Completas</th>
+                <th>Sessões</th>
+                <th>Completos</th>
                 <th>Leads</th>
                 <th>Taxa lead</th>
               </tr>
             </thead>
-            <tbody></tbody>
+            <tbody id="campaignsTableBody">
+              <tr>
+                <td colspan="5" class="empty-state">Carregando campanhas...</td>
+              </tr>
+            </tbody>
           </table>
         </div>
-      </div>
+      </article>
 
-      <div>
-        <div class="panel">
-          <h2>Performance por unidade</h2>
-          <div class="loading" id="loadingUnits">Carregando...</div>
-          <table id="tableUnits" style="display:none;">
+      <article class="card">
+        <h2>Desempenho por unidade</h2>
+        <p class="card-sub">Mostra preferência da unidade e conversão por local.</p>
+
+        <div class="table-wrap">
+          <table>
             <thead>
               <tr>
                 <th>Unidade</th>
-                <th>Iniciadas</th>
-                <th>Completas</th>
+                <th>Sessões</th>
+                <th>Completos</th>
                 <th>Leads</th>
                 <th>Taxa lead</th>
               </tr>
             </thead>
-            <tbody></tbody>
+            <tbody id="unitsTableBody">
+              <tr>
+                <td colspan="5" class="empty-state">Carregando unidades...</td>
+              </tr>
+            </tbody>
           </table>
         </div>
+      </article>
+    </section>
 
-        <div class="panel">
-          <h2>Leitura rápida</h2>
-          <div id="insights" class="muted">Carregando insights...</div>
+    <section class="card">
+      <h2>Gestão de leads</h2>
+      <p class="card-sub">Aqui você acompanha os leads do quiz e marca o avanço real no pós-atendimento.</p>
+
+      <div class="leads-toolbar">
+        <div class="leads-summary" id="leadsSummary">
+          Carregando leads...
+        </div>
+
+        <div class="leads-filter">
+          <label for="leadStatusFilter"><strong>Status:</strong></label>
+          <select id="leadStatusFilter">
+            <option value="all">Todos</option>
+            <option value="raw">Raw</option>
+            <option value="lead">Lead</option>
+            <option value="qualified">Qualified</option>
+            <option value="agendado">Agendado</option>
+            <option value="compareceu">Compareceu</option>
+            <option value="fechado">Fechado</option>
+          </select>
         </div>
       </div>
-    </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Lead</th>
+              <th>Unidade</th>
+              <th>Objetivo</th>
+              <th>Interesse</th>
+              <th>Score</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="leadsTableBody">
+            <tr>
+              <td colspan="7" class="empty-state">Carregando leads...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
   </div>
 
   <script src="./dashboard.js"></script>
