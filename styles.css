@@ -454,3 +454,192 @@ body {
     font-size: 0.86rem;
   }
 }
+
+/* ===============================
+   CARROSSEL ESTILO INSTAGRAM + BARRA RESULTADO
+   =============================== */
+
+.ig-card {
+  background: #0b0f12;
+  border: 1px solid rgba(3,194,199,0.22);
+  border-radius: 18px;
+  max-width: 760px;
+  margin: 10px auto 0;
+  overflow: hidden;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.22);
+}
+
+.ig-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  background: rgba(0,0,0,0.35);
+  color: #e5edf5;
+  font-weight: 800;
+  font-size: 0.95rem;
+}
+
+.ig-counter {
+  background: rgba(0,0,0,0.55);
+  border: 1px solid rgba(255,255,255,0.10);
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+}
+
+.ig-viewport {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5; /* parecido com carrossel feed */
+  background: #000;
+  user-select: none;
+  touch-action: pan-y;
+}
+
+.ig-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: translateX(10px);
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+
+.ig-slide.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.ig-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ig-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.20);
+  background: rgba(0,0,0,0.45);
+  color: white;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  transition: transform 160ms ease, background 160ms ease;
+}
+
+.ig-nav-btn:hover {
+  background: rgba(0,0,0,0.65);
+  transform: translateY(-50%) scale(1.03);
+}
+
+.ig-nav-left { left: 10px; }
+.ig-nav-right { right: 10px; }
+
+.ig-dots {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  padding: 10px 10px 12px;
+  background: rgba(0,0,0,0.25);
+}
+
+.ig-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.25);
+  border: 1px solid rgba(255,255,255,0.18);
+  cursor: pointer;
+}
+
+.ig-dot.active {
+  background: #03c2c7;
+  border-color: rgba(3,194,199,0.65);
+}
+
+.ig-actions {
+  display: flex;
+  justify-content: center;
+  padding: 12px;
+  background: rgba(0,0,0,0.28);
+}
+
+.result-meter {
+  max-width: 820px;
+  margin: 12px auto 0;
+  padding: 14px;
+  border-radius: 18px;
+  border: 1px solid rgba(3,194,199,0.18);
+  background: linear-gradient(180deg, #ffffff 0%, #fbfeff 100%);
+}
+
+.meter-title {
+  margin: 0 0 6px;
+  font-weight: 900;
+  font-style: italic;
+  color: #0b1620;
+  font-size: 1.2rem;
+}
+
+.meter-sub {
+  margin: 0 0 12px;
+  color: #475467;
+  line-height: 1.45;
+}
+
+.meter-bar {
+  position: relative;
+  height: 14px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: linear-gradient(90deg, #ef4444 0%, #f59e0b 48%, #22c55e 100%);
+}
+
+.meter-pin {
+  position: absolute;
+  top: -7px;
+  width: 18px;
+  height: 28px;
+  border-radius: 999px;
+  background: #0b0f12;
+  border: 2px solid #03c2c7;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.25);
+  transform: translateX(-50%);
+}
+
+.meter-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-size: 0.85rem;
+  color: #667085;
+  font-weight: 700;
+}
+
+.fixed-promise {
+  margin-top: 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(3,194,199,0.20);
+  background: #ecfeff;
+  padding: 14px;
+}
+
+.fixed-promise h4 {
+  margin: 0 0 8px;
+  color: #0f6f72;
+  font-weight: 900;
+  font-style: italic;
+}
+
+.fixed-promise p {
+  margin: 0;
+  color: #0b1620;
+  line-height: 1.5;
+  font-weight: 600;
+}
