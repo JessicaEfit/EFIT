@@ -403,7 +403,7 @@ function trackQuizStartOnce() {
     meta_event_name: "QuizStart",
     meta_event_type: "custom",
     meta_enabled: true,
-    step_id: getCurrentStep()?.id || "intro",
+    step_id: getCurrentStep()?.id || "objetivo",
     step_index: quizState.currentStep + 1
   });
 }
@@ -501,18 +501,6 @@ function trackQuizCompleteOnce() {
 // ===============================
 function buildStepsForObjective(obj) {
   const baseStart = [
-    {
-      id: "intro",
-      type: "info",
-      label: "✅ AVALIAÇÃO GRATUITA",
-      title: "Faça uma avaliação gratuita em 60 segundos",
-      subtitle: "No final você recebe uma recomendação personalizada e pode agendar uma aula experimental cortesia.",
-      helper: "Toque em continuar.",
-      content: {
-        text: "Sem compromisso. Primeiro a gente entende seu objetivo e seu momento. Depois você decide se quer falar com a atendente.",
-        bullets: ["Rápido", "Personalizado", "Focado em rotina corrida"]
-      }
-    },
     {
       id: "objetivo",
       type: "options",
@@ -869,10 +857,6 @@ function trackLeadAndOpenWhatsApp(url) {
   const isAgendar = interesse === "Sim, quero agendar";
   const isDuvidas = interesse === "Quero só tirar dúvidas";
 
-  // Regra:
-  // - Sim, quero agendar => Lead + WhatsAppCTA
-  // - Quero só tirar dúvidas => só WhatsAppCTA
-  // - Agora não => não dispara evento final
   let leadEventId = null;
   let whatsappEventId = null;
 
