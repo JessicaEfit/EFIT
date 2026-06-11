@@ -683,18 +683,7 @@ function buildStepsForObjective(obj) {
       subtitle: "Deslize como no Instagram. Depois continue sua avaliação.",
       helper: "Deslize para ver os slides e toque em continuar."
     },
-    {
-      id: "unidade",
-      type: "options",
-      label: "📍 UNIDADE",
-      title: "Se você fosse começar, qual unidade escolheria?",
-      subtitle: "Só para adaptar sua recomendação. Sem compromisso.",
-      field: "unidade",
-      options: [
-        { value: "São Caetano", text: "São Caetano", emoji: "🏙️" },
-        { value: "Tatuapé", text: "Tatuapé", emoji: "📍" }
-      ]
-    },
+    
     {
       id: "horario",
       type: "options",
